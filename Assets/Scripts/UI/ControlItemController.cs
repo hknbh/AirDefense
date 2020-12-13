@@ -1,34 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.Mouse;
 
-public class BuildingController : MonoBehaviour
+public class ControlItemController : MonoBehaviour
 {
-    [SerializeField]
+    //Our universal inputcontroller
     private GameObject inputController;
 
     [SerializeField]
-    private GameObject objectSpawner;
-    
+    private GameObject objectPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        inputController = GameObject.FindGameObjectWithTag("InputController");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
-    public void addRadar()
+
+    public void addItem()
     {
-        Debug.Log("Add radar selected");
+        Debug.Log("Add item selected");
         MouseController mouseController = inputController.GetComponent<MouseController>();
         RaycastHit raycastHit = mouseController.getRayCastHit(out bool isHit);
-        GameObject radar = objectSpawner.GetComponent<BuildingSpawner>().spawnRadar(raycastHit.point);
-        mouseController.addItemMode(radar);
+        GameObject itemToAdd = Instantiate(objectPrefab, raycastHit.point, Quaternion.identity);
+        mouseController.addItemMode(itemToAdd);
     }
 }
+

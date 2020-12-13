@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RadarScript : MonoBehaviour
 {
-
+    [SerializeField]
     private GameObject missilePrefab;
 
     // Start is called before the first frame update
@@ -22,7 +22,8 @@ public class RadarScript : MonoBehaviour
     public void fireMissile(GameObject targetObject)
     {
         GameObject missile = Instantiate(missilePrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity);
-        missile.GetComponent<MissileScript>().setParams(targetObject, 350, 45, 10);
+        missile.GetComponent<MissileScript>().setParams(targetObject, 50, 5, 10);
+        Debug.Log("Missile Target: " + targetObject.transform.position);
     }
 
    

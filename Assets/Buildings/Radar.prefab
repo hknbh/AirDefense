@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7214118547203447593}
   - component: {fileID: 6128219887516343717}
   - component: {fileID: 5788271473047907856}
-  - component: {fileID: 5304989334480398530}
+  - component: {fileID: -6171644751305620471}
   m_Layer: 0
   m_Name: Radar
   m_TagString: Untagged
@@ -111,7 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a70577a2adbd44bd8d075b5a4daf71f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5304989334480398530
+  missilePrefab: {fileID: 9024546690069765282, guid: 6db15ebf5b3e9428292e4d59de56adf9,
+    type: 3}
+--- !u!114 &-6171644751305620471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,10 +122,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1601241432796229248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4546ceac7f2bb484296a5922147357cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 9379c5e77a70d384ca621141783a4762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSelectable: 1
+  hasAction: 1
   mouseSelectedPlane: {fileID: 4658745400369637109}
+  radar: {fileID: 0}
 --- !u!1 &1887774421971286280
 GameObject:
   m_ObjectHideFlags: 0

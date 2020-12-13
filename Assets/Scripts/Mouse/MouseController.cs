@@ -4,119 +4,140 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Assets.Scripts.Mouse
+
+public class MouseController : MonoBehaviour
 {
-    public class MouseController : MonoBehaviour
+    private GameObject selectedObject;
+
+    private InteractionType interactionType;
+
+    private GameObject itemToAdd;
+
+    private Action<GameObject> targetActionLambda;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        private GameObject selectedObject;
+        interactionType = InteractionType.SELECTION;
+    }
 
-        private InteractionType interactionType;
-
-        private GameObject itemToAdd;
-
-        // Start is called before the first frame update
-        void Start()
+    // Update is called once per frame
+    void Update()
+    {
+        if (EventSystem.current.IsPointerOverGameObject())
         {
-            interactionType = InteractionType.SELECTION;
+            return;
         }
 
-        // Update is called once per frame
-        void Update()
+        if (interactionType == InteractionType.ADD_ITEM)
         {
-            if (EventSystem.current.IsPointerOverGameObject())
+            addItemUpdate();
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            switch (interactionType)
             {
-                return;
-            }
-
-            if (interactionType == InteractionType.ADD_ITEM)
-            {
-                addItemUpdate();
-            }
-            if (Input.GetMouseButtonDown(0))
-            {
-                switch (interactionType)
-                {
-                    case InteractionType.SELECTION: selectItem(); break;
-                    case InteractionType.ADD_ITEM: addItem(); break;
-                }
+                case InteractionType.SELECTION: selectItem(); break;
+                case InteractionType.ADD_ITEM: addItem(); break;
+                case InteractionType.TARGET_ACTION: runTargetAction(); break;
             }
         }
+    }
 
-        private void addItemUpdate()
+    private void runTargetAction()
+    {
+        if (targetActionLambda != null)
         {
-            if (itemToAdd != null)
+            RaycastHit rayCastHit = getRayCastHit(out bool isHit);
+            if (isHit)
             {
-                itemToAdd.SetActive(false);
-                RaycastHit rayCastHit = getRayCastHit(out bool isHit);
-                if (isHit)
-                {
-                    itemToAdd.transform.position = rayCastHit.point;
-                    itemToAdd.SetActive(true);
-                    Debug.Log(rayCastHit.point);
-                }
-            }
-            else
-            {
-                Debug.LogError("No Item to add. Return to selection");
+                GameObject hitObject = rayCastHit.transform.gameObject;
+                targetActionLambda(hitObject);
+                targetActionLambda = null;
                 interactionType = InteractionType.SELECTION;
             }
         }
+    }
 
-        public void addItemMode(GameObject building)
+    private void addItemUpdate()
+    {
+        if (itemToAdd != null)
         {
-            interactionType = InteractionType.ADD_ITEM;
-            itemToAdd = building;
-        }
-
-        private void addItem()
-        {
-            Debug.Log("Add Item");
-            itemToAdd = null;
-            interactionType = InteractionType.SELECTION;
-        }
-
-        private void selectItem()
-        {
-
-            RaycastHit hitInfo = getRayCastHit(out bool isHit);
+            itemToAdd.SetActive(false);
+            RaycastHit rayCastHit = getRayCastHit(out bool isHit);
             if (isHit)
             {
-                Debug.Log("Hit to:" + hitInfo.transform.position);
-                Debug.Log("Hit point: " + hitInfo.point);
-                GameObject hitObject = hitInfo.transform.gameObject;
-                if (hitObject != selectedObject)
+                itemToAdd.transform.position = rayCastHit.point;
+                itemToAdd.SetActive(true);
+                Debug.Log(rayCastHit.point);
+            }
+        }
+        else
+        {
+            Debug.LogError("No Item to add. Return to selection");
+            interactionType = InteractionType.SELECTION;
+        }
+    }
+
+    public void addItemMode(GameObject aBuilding)
+    {
+        interactionType = InteractionType.ADD_ITEM;
+        itemToAdd = aBuilding;
+    }
+
+    private void addItem()
+    {
+        Debug.Log("Add Item");
+        itemToAdd = null;
+        interactionType = InteractionType.SELECTION;
+    }
+
+    private void selectItem()
+    {
+        RaycastHit hitInfo = getRayCastHit(out bool isHit);
+        if (isHit)
+        {
+            Debug.Log("Hit to:" + hitInfo.transform.position);
+            Debug.Log("Hit point: " + hitInfo.point);
+            GameObject hitObject = hitInfo.transform.gameObject;
+            if (hitObject != selectedObject)
+            {
+                deSelectCurrent();
+                MouseSelectionScript mouseSelectionScript = hitObject.GetComponent<MouseSelectionScript>();
+                if (mouseSelectionScript != null)
                 {
-                    deSelectCurrent();
-                    MouseSelectionScript mouseSelectionScript = hitObject.GetComponent<MouseSelectionScript>();
-                    if (mouseSelectionScript != null)
+                    mouseSelectionScript.select();
+                    selectedObject = hitObject;
+                    if (mouseSelectionScript.HasAction)
                     {
-                        mouseSelectionScript.select();
-                        selectedObject = hitObject;
+                        targetActionLambda = mouseSelectionScript.TargetAction;
+                        interactionType = InteractionType.TARGET_ACTION;
                     }
                 }
             }
-            else
-            {
-                deSelectCurrent();
-            }
-
         }
-
-        private void deSelectCurrent()
+        else
         {
-            if (selectedObject != null)
-            {
-                selectedObject.GetComponent<MouseSelectionScript>().deSelect();
-                selectedObject = null;
-            }
-        }
-
-        public RaycastHit getRayCastHit(out bool aIsHit)
-        {
-            RaycastHit raycastHit = new RaycastHit();
-            aIsHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out raycastHit);
-            return raycastHit;
+            deSelectCurrent();
         }
 
     }
+
+    private void deSelectCurrent()
+    {
+        if (selectedObject != null)
+        {
+            selectedObject.GetComponent<MouseSelectionScript>().deSelect();
+            selectedObject = null;
+        }
+    }
+
+    public RaycastHit getRayCastHit(out bool aIsHit)
+    {
+        RaycastHit raycastHit = new RaycastHit();
+        aIsHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out raycastHit);
+        return raycastHit;
+    }
+
 }
+
