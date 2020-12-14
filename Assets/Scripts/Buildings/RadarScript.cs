@@ -22,7 +22,7 @@ public class RadarScript : MonoBehaviour
     public void fireMissile(GameObject targetObject)
     {
         GameObject missile = Instantiate(missilePrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity);
-        missile.GetComponent<MissileScript>().setParams(targetObject, 50, 5, 10);
+        missile.GetComponent<MissileScript>().setParams(targetObject, 50, 35, 10);
         Debug.Log("Missile Target: " + targetObject.transform.position);
     }
 
