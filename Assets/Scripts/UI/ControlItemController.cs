@@ -10,6 +10,9 @@ public class ControlItemController : MonoBehaviour
     [SerializeField]
     private GameObject objectPrefab;
 
+    [SerializeField]
+    private GameObject subControlPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +32,12 @@ public class ControlItemController : MonoBehaviour
         RaycastHit raycastHit = mouseController.getRayCastHit(out bool isHit);
         GameObject itemToAdd = Instantiate(objectPrefab, raycastHit.point, Quaternion.identity);
         mouseController.addItemMode(itemToAdd);
+    }
+
+    public void openSubControlPanel()
+    {
+        ControlPanelController parentController = GetComponentInParent<ControlPanelController>();
+        parentController.openSubControlPanel(subControlPanel);
     }
 }
 
