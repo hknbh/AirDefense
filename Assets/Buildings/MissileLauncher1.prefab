@@ -93,9 +93,9 @@ GameObject:
   - component: {fileID: -5178661895559278292}
   - component: {fileID: -1504981713932161579}
   - component: {fileID: -5716681864270162303}
-  - component: {fileID: 3538974011179913629}
-  - component: {fileID: 8988984229332712534}
   - component: {fileID: 2661384246658370229}
+  - component: {fileID: 5761673491487802726}
+  - component: {fileID: 6535482583581076293}
   m_Layer: 0
   m_Name: MissileLauncher1
   m_TagString: Untagged
@@ -111,12 +111,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2929056204085684580}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0023885376, y: 7.9, z: -0.0023140768}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
   - {fileID: 5574657383665397177}
-  - {fileID: 1492961885121132954}
   - {fileID: 5768130135231646035}
+  - {fileID: 1492961885121132954}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -184,35 +184,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &3538974011179913629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2929056204085684580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a70577a2adbd44bd8d075b5a4daf71f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  missilePrefab: {fileID: 9024546690069765282, guid: 6db15ebf5b3e9428292e4d59de56adf9,
-    type: 3}
---- !u!114 &8988984229332712534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2929056204085684580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9379c5e77a70d384ca621141783a4762, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSelectable: 1
-  hasAction: 1
-  mouseSelectedPlane: {fileID: 5544128364118439222}
 --- !u!65 &2661384246658370229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -226,6 +197,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 974.7914, y: 154.05835, z: 939.42126}
   m_Center: {x: -6.8054047, y: -29.381378, z: 4.001007}
+--- !u!114 &5761673491487802726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929056204085684580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 127132dde53d15c4ba2495dc2c42fd3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missilePrefab: {fileID: 9024546690069765282, guid: 6db15ebf5b3e9428292e4d59de56adf9,
+    type: 3}
+--- !u!114 &6535482583581076293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929056204085684580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99ce8b06467bae346beefc9289dab425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSelectable: 1
+  hasAction: 1
+  mouseSelectedPlane: {fileID: 5544128364118439222}
 --- !u!1 &5133913965574556032
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,11 +335,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544128364118439222}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -120, z: 0}
+  m_LocalPosition: {x: 0, y: -120.000244, z: 0}
   m_LocalScale: {x: 200, y: 1, z: 200}
   m_Children: []
   m_Father: {fileID: 1905044763191716838}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6950335931181735753
 MeshFilter:
@@ -431,10 +431,10 @@ Transform:
   m_GameObject: {fileID: 9038713204404159283}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 240, z: 0}
-  m_LocalScale: {x: 1000, y: 1000, z: 1000}
+  m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 1905044763191716838}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1366375596476621611
 MeshFilter:

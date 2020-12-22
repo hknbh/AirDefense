@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class MissileLauncherMouseSelection : MouseSelectionScript
 {
-    void Start()
+    public void Start()
     {
-        Debug.Log("S T A R T");
+        base.Start();
         TargetAction = shootMissile;
     }
 

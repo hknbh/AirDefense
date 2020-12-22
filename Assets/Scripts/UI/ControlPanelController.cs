@@ -8,8 +8,6 @@ public class ControlPanelController : MonoBehaviour
     [SerializeField]
     private bool isMainControlPanel;
 
-    [SerializeField]
-    private GameObject backButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,12 +32,12 @@ public class ControlPanelController : MonoBehaviour
         GetComponentInParent<ControlPanelController>().showOnlyComponents();
     }
 
-    private void showOnlyComponents()
+    public void showOnlyComponents()
     {
         for (int index = 0; index < transform.childCount; ++index)
         {
             Transform child = transform.GetChild(index);
-            if ((isMainControlPanel && child.gameObject == backButton) || child.GetComponent<ControlPanelController>() != null)
+            if (child.GetComponent<ControlPanelController>() != null)
             {
                 child.gameObject.SetActive(false);
             }
@@ -60,7 +58,16 @@ public class ControlPanelController : MonoBehaviour
         }
     }
 
-
-
-
+    internal void setActionItemActionHandler(GameObject gameObject)
+    {
+        for (int index = 0; index < transform.childCount; ++index)
+        {
+            Transform child = transform.GetChild(index);
+            ActionItemController actionItemController = child.GetComponent<ActionItemController>();
+            if (actionItemController != null)
+            {
+                actionItemController.setActionObject(gameObject);
+            }
+        }
+    }
 }

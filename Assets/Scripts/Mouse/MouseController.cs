@@ -35,6 +35,7 @@ public class MouseController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("Interaction Type: " + interactionType);
             switch (interactionType)
             {
                 case InteractionType.SELECTION: selectItem(); break;

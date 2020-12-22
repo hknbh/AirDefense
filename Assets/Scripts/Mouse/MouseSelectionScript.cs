@@ -3,8 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseSelectionScript : MonoBehaviour
+public class MouseSelectionScript : MonoBehaviour, ActionPanelHolder
 {
+    //Our universal inputcontroller
+    [SerializeField]
+    private GameObject mainControlPanel;
+
+    //The panel that will be displayed when the object is selected
+    [SerializeField]
+    private GameObject actionControlPanel;
+
     [SerializeField]
     private bool isSelectable;
 
@@ -12,6 +20,7 @@ public class MouseSelectionScript : MonoBehaviour
     [SerializeField]
     private bool hasAction;
 
+    //the plane that is displayed when the item is selected
     [SerializeField]
     private GameObject mouseSelectedPlane;
 
@@ -23,30 +32,41 @@ public class MouseSelectionScript : MonoBehaviour
     public Action<GameObject> TargetAction { get => targetAction; set => targetAction = value; }
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        IsSelectable = true;
-        HasAction = true;
+        mainControlPanel = GameObject.FindGameObjectWithTag("MainControlPanel");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public virtual bool select()
+    public bool select()
     {
         Debug.Log("Is selectable: " + IsSelectable);
         if (IsSelectable)
         {
             mouseSelectedPlane.SetActive(true);
+            if (actionControlPanel != null)
+            {
+                mainControlPanel.GetComponent<ControlPanelController>().openSubControlPanel(actionControlPanel);
+                actionControlPanel.GetComponent<ControlPanelController>().setActionItemActionHandler(gameObject);
+            }
         }
         return IsSelectable;
     }
 
-    public virtual void deSelect()
+    public void deSelect()
     {
         mouseSelectedPlane.SetActive(false);
+        Debug.Log("MainControlPanel: " + mainControlPanel.GetComponent<ControlPanelController>());
+        mainControlPanel.GetComponent<ControlPanelController>().showOnlyComponents();
+    }
+
+    public void setActionPanel(GameObject aActionControlPanel)
+    {
+        actionControlPanel = aActionControlPanel;
     }
 }

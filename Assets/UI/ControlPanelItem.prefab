@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1799400734639427219}
   - component: {fileID: 1799400734639427309}
   - component: {fileID: 1799400734639427218}
-  - component: {fileID: 1799400734639427308}
   - component: {fileID: 1799400734639427310}
+  - component: {fileID: 6122880870302629257}
   m_Layer: 5
   m_Name: ControlPanelItem
   m_TagString: Untagged
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -74,20 +74,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &1799400734639427308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799400734639427216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 418af3457e740ae47b1b9b7fb54146a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 0}
-  subControlPanel: {fileID: 0}
 --- !u!114 &1799400734639427310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,8 +91,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1799400734639427308}
-          m_TargetAssemblyTypeName: ControlItemController, Assembly-CSharp
+        - m_Target: {fileID: 6122880870302629257}
+          m_TargetAssemblyTypeName: AddItemController, Assembly-CSharp
           m_MethodName: addItem
           m_Mode: 1
           m_Arguments:
@@ -117,3 +103,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &6122880870302629257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799400734639427216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fcb8ccea2c334941920afc1efc0daa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 0}
+  subControlPanel: {fileID: 0}
