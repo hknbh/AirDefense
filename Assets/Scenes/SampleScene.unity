@@ -377,6 +377,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a7230c8cab8aa54abfe2d78fdd27179, type: 3}
+--- !u!114 &248054593 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -4475287448209028757, guid: fdcc03ee88a13fd4db66d22a12df3e64,
+    type: 3}
+  m_PrefabInstance: {fileID: 1105490119}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696fb2fdf7299b3489c84fdcd5d2bc8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &314309474 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6487508494625122433, guid: 7a7230c8cab8aa54abfe2d78fdd27179,
@@ -1717,6 +1729,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileLauncherActionPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 6487508494625122433, guid: 7a7230c8cab8aa54abfe2d78fdd27179,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a7230c8cab8aa54abfe2d78fdd27179, type: 3}
 --- !u!224 &977348651 stripped
@@ -1924,6 +1941,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UpgradeMissileCountActionItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 3223941947755673416, guid: fdcc03ee88a13fd4db66d22a12df3e64,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 248054593}
+    - target: {fileID: 3223941947755673416, guid: fdcc03ee88a13fd4db66d22a12df3e64,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ActionItemController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3223941947755673416, guid: fdcc03ee88a13fd4db66d22a12df3e64,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: onMouseClick
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdcc03ee88a13fd4db66d22a12df3e64, type: 3}

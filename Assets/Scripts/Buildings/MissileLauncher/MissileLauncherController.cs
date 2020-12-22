@@ -28,6 +28,6 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler
 
     public void onMouseClick(string actionName)
     {
-        Debug.Log("Missile launcher click");
+        Debug.Log("Missile launcher clicked");
     }
 }

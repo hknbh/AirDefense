@@ -11,8 +11,10 @@ public class MouseController : MonoBehaviour
 
     private InteractionType interactionType;
 
+    //Item to be added into the map
     private GameObject itemToAdd;
 
+    //When item is selected and clicked on the map this action will be run
     private Action<GameObject> targetActionLambda;
 
     // Start is called before the first frame update
@@ -24,6 +26,7 @@ public class MouseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //ignore if mouse is over an UI component
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
@@ -56,6 +59,7 @@ public class MouseController : MonoBehaviour
                 targetActionLambda(hitObject);
                 targetActionLambda = null;
                 interactionType = InteractionType.SELECTION;
+                deSelectCurrent();
             }
         }
     }

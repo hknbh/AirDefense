@@ -43,9 +43,8 @@ public class MouseSelectionScript : MonoBehaviour, ActionPanelHolder
 
     }
 
-    public bool select()
+    public void select()
     {
-        Debug.Log("Is selectable: " + IsSelectable);
         if (IsSelectable)
         {
             mouseSelectedPlane.SetActive(true);
@@ -55,7 +54,6 @@ public class MouseSelectionScript : MonoBehaviour, ActionPanelHolder
                 actionControlPanel.GetComponent<ControlPanelController>().setActionItemActionHandler(gameObject);
             }
         }
-        return IsSelectable;
     }
 
     public void deSelect()
