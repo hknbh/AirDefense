@@ -6,6 +6,7 @@ TagManager:
   tags:
   - InputController
   - MainControlPanel
+  - Terrain
   layers:
   - Default
   - TransparentFX
