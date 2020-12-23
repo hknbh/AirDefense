@@ -1,14 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    private float speed = 400.0f;
+    private float scrollSpeed = 400.0f;
 
     [SerializeField]
-    private float zoomSpeed = 200.0f;
+    private float mouseScrollSpeed = 1000.0f;
+
+    [SerializeField]
+    private float zoomSpeed = 500.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,16 +23,28 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Input.anyKey)
         {
-            transform.position += getDirection() * speed * Time.deltaTime;
+            transform.position += getDirection() * scrollSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetMouseButton(2))
+        {
+            transform.position += getMouseDirection() * mouseScrollSpeed * Time.deltaTime;
         }
 
         if (Input.mouseScrollDelta.y != 0)
         {
             transform.Translate(Vector3.forward * Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime);
         }
+    }
+
+    private Vector3 getMouseDirection()
+    {
+        float translationX = Input.GetAxis("Mouse X") * -1;
+        float translationY = Input.GetAxis("Mouse Y") * -1;
+        Vector3 vector3 = new Vector3(translationX, 0, translationY);
+        return vector3;
     }
 
     private Vector3 getDirection()

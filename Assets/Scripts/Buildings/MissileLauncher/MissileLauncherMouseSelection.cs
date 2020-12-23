@@ -15,7 +15,15 @@ public class MissileLauncherMouseSelection : MouseSelectionScript
 
     private void shootMissile(GameObject target)
     {
-        Debug.Log("Shoot missile to:" + target.transform.position);
-        GetComponent<MissileLauncherController>().fireMissile(target);
+        if (target.tag.Equals("Terrain"))
+        {
+            Debug.Log("Clicked on Terrain, skipping missile launch");
+        }
+        else
+        {
+            Debug.Log("Shoot missile to:" + target.transform.position);
+            GetComponent<MissileLauncherController>().fireMissile(target);
+        }
+        
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileScript : MonoBehaviour
+public class MissileController : MonoBehaviour
 {
     [SerializeField]
     private float turnAngle = 20;
@@ -15,7 +15,7 @@ public class MissileScript : MonoBehaviour
 
     [SerializeField]
     private GameObject targetObject;
-      
+
 
     [SerializeField]
     private GameObject missileBody;
@@ -32,7 +32,7 @@ public class MissileScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(targetObject == null)
+        if (targetObject == null)
         {
             return;
         }
@@ -50,12 +50,11 @@ public class MissileScript : MonoBehaviour
         }
     }
 
-    public void setParams(GameObject targetObject, float speed,float turnAngle,float killRadius)
+    public void setParams(GameObject targetObject, float speed, float turnAngle, float killRadius)
     {
         this.targetObject = targetObject;
         this.speed = speed;
         this.turnAngle = turnAngle;
         this.killRadius = killRadius;
     }
-   
 }
