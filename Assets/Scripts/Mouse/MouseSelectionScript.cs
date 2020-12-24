@@ -20,10 +20,6 @@ public class MouseSelectionScript : MonoBehaviour, ActionPanelHolder
     [SerializeField]
     private bool hasAction;
 
-    //the plane that is displayed when the item is selected
-    [SerializeField]
-    private GameObject mouseSelectedPlane;
-
     //Action to be called when this item is selected and users click onto sth
     private Action<GameObject> targetAction;
 
@@ -47,7 +43,6 @@ public class MouseSelectionScript : MonoBehaviour, ActionPanelHolder
     {
         if (IsSelectable)
         {
-            mouseSelectedPlane.SetActive(true);
             if (actionControlPanel != null)
             {
                 mainControlPanel.GetComponent<ControlPanelController>().openSubControlPanel(actionControlPanel);
@@ -58,7 +53,6 @@ public class MouseSelectionScript : MonoBehaviour, ActionPanelHolder
 
     public void deSelect()
     {
-        mouseSelectedPlane.SetActive(false);
         Debug.Log("MainControlPanel: " + mainControlPanel.GetComponent<ControlPanelController>());
         mainControlPanel.GetComponent<ControlPanelController>().showOnlyComponents();
     }

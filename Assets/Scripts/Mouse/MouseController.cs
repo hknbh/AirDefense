@@ -118,6 +118,7 @@ public class MouseController : MonoBehaviour
                         targetActionLambda = mouseSelectionScript.TargetAction;
                         interactionType = InteractionType.TARGET_ACTION;
                     }
+                    drawSelectedCircle(hitObject.transform);
                 }
             }
         }
@@ -128,6 +129,13 @@ public class MouseController : MonoBehaviour
 
     }
 
+    private void drawSelectedCircle(Transform transform)
+    {
+        Material terrainMaterial = Terrain.activeTerrain.materialTemplate;
+        terrainMaterial.SetFloat("_isShowSelection", 1);
+        terrainMaterial.SetVector("_Center", new Vector4(transform.position.x, transform.position.y, transform.position.z, 0));
+    }
+
     private void deSelectCurrent()
     {
         if (selectedObject != null)
@@ -135,6 +143,8 @@ public class MouseController : MonoBehaviour
             selectedObject.GetComponent<MouseSelectionScript>().deSelect();
             selectedObject = null;
         }
+        Material terrainMaterial = Terrain.activeTerrain.materialTemplate;
+        terrainMaterial.SetFloat("_isShowSelection", 0);
     }
 
     public RaycastHit getRayCastHit(out bool aIsHit)
