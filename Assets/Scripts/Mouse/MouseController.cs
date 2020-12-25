@@ -74,7 +74,6 @@ public class MouseController : MonoBehaviour
             {
                 itemToAdd.transform.position = rayCastHit.point;
                 itemToAdd.SetActive(true);
-                Debug.Log(rayCastHit.point);
             }
         }
         else
@@ -93,6 +92,7 @@ public class MouseController : MonoBehaviour
     private void addItem()
     {
         Debug.Log("Add Item");
+        GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(itemToAdd);
         itemToAdd = null;
         interactionType = InteractionType.SELECTION;
     }
@@ -102,8 +102,6 @@ public class MouseController : MonoBehaviour
         RaycastHit hitInfo = getRayCastHit(out bool isHit);
         if (isHit)
         {
-            Debug.Log("Hit to:" + hitInfo.transform.position);
-            Debug.Log("Hit point: " + hitInfo.point);
             GameObject hitObject = hitInfo.transform.gameObject;
             if (hitObject != selectedObject)
             {

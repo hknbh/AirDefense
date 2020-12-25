@@ -35,7 +35,7 @@
                 if (_isShowSelection) {
                     float dist = distance(_Center, IN.worldPos);
                     if (dist > _Radius && dist < (_Radius + _Thickness))
-                        o.Albedo = _CircleColor;
+                        o.Albedo = c.rgb * _CircleColor;
                     else
                         o.Albedo = c.rgb;
                 }

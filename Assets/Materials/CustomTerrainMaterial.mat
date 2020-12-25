@@ -76,8 +76,8 @@ Material:
     - _ZWrite: 1
     - _isShowSelection: 0
     m_Colors:
-    - _Center: {r: 557.8083, g: 0, b: 554.6031, a: 0}
-    - _CircleColor: {r: 1, g: 0, b: 0, a: 1}
+    - _Center: {r: 499.8299, g: 0, b: 480.44574, a: 0}
+    - _CircleColor: {r: 0.40396938, g: 0.9622642, b: 0.6874862, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 0, g: 1, b: 0, a: 1}

@@ -31,8 +31,10 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler
 
     public void fireMissile(GameObject targetObject)
     {
+        Debug.Log("Fire Missile");
         GameObject missile = Instantiate(missilePrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity);
         missile.GetComponent<MissileController>().setParams(targetObject, missileSpeed, missileTurnAngle, missileKillRadius);
+        GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(missile);
     }
 
     public void onMouseClick(string actionName)

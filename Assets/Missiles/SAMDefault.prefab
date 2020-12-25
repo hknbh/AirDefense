@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 45, y: 20, z: 45}
   m_Children: []
   m_Father: {fileID: 2801465145767379275}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9204247088296536209
 MeshFilter:
@@ -81,18 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6122516754455949738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3529790684237712166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37e08d833eac2042a601944bb1db7d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &3554598794806338046
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -109,6 +97,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6122516754455949738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3529790684237712166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37e08d833eac2042a601944bb1db7d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9024546690069765282
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,8 +137,8 @@ Transform:
   m_LocalPosition: {x: 3915.0762, y: 4201.804, z: 3854.981}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4468070040576274008}
   - {fileID: 3529790684238139538}
+  - {fileID: 4468070040576274008}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -158,6 +158,7 @@ MonoBehaviour:
   speed: 10
   killRadius: 10
   targetObject: {fileID: 0}
+  targetObjectPosition: {x: 0, y: 0, z: 0}
   missileBody: {fileID: 3529790684237712166}
   radarIcon: {fileID: 1473639897055458646}
 --- !u!1001 &3529790684237728156
@@ -201,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 416014, guid: 1d37014fd411c524db3696bba6ff1d21, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 416014, guid: 1d37014fd411c524db3696bba6ff1d21, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

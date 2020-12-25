@@ -20,7 +20,6 @@ public class MissileBodyController : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("Terrain"))
         {
-            Debug.Log("Collided to Terrain, destroy");
             Destroy(transform.parent.gameObject);
         }
     }

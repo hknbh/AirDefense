@@ -16,6 +16,8 @@ public class MissileController : MonoBehaviour
     [SerializeField]
     private GameObject targetObject;
 
+    [SerializeField]
+    private Vector3 targetObjectPosition;
 
     [SerializeField]
     private GameObject missileBody;
@@ -26,25 +28,37 @@ public class MissileController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (targetObject == null)
+        //if targetObject is destroyed, use the latest transform
+        if (targetObject != null)
         {
+            targetObjectPosition = targetObject.transform.position;
+        }
+
+        //if targetposition not initialized, destroy yourself
+        if (targetObjectPosition == null)
+        {
+            Destroy(this.gameObject);
             return;
         }
-        if (Vector3.Distance(targetObject.transform.position, missileBody.transform.position) <= killRadius)
+
+        if (Vector3.Distance(targetObjectPosition, missileBody.transform.position) <= killRadius)
         {
-            Destroy(targetObject);
+            if (targetObject != null)
+            {
+                Destroy(targetObject);
+            }
             Destroy(this.gameObject);
         }
         else
         {
-            Quaternion targetRotation = Quaternion.LookRotation(targetObject.transform.position - missileBody.transform.position);
-            missileBody.transform.rotation = Quaternion.RotateTowards(missileBody.transform.rotation, targetRotation, turnAngle * Time.deltaTime);
+            Quaternion lookRotation = Quaternion.LookRotation(targetObjectPosition - missileBody.transform.position);
+            missileBody.transform.rotation = Quaternion.RotateTowards(missileBody.transform.rotation, lookRotation, turnAngle * Time.deltaTime);
             missileBody.transform.Translate(Vector3.forward * speed * Time.deltaTime);
             radarIcon.transform.position = missileBody.transform.position;
         }
@@ -52,7 +66,15 @@ public class MissileController : MonoBehaviour
 
     public void setParams(GameObject targetObject, float speed, float turnAngle, float killRadius)
     {
-        this.targetObject = targetObject;
+        if (targetObject.GetComponent<MissileController>() != null)
+        {
+            this.targetObject = targetObject.transform.GetChild(0).gameObject;
+        }
+        else
+        {
+            this.targetObject = targetObject;
+        }
+        this.targetObjectPosition = this.targetObject.transform.position;
         this.speed = speed;
         this.turnAngle = turnAngle;
         this.killRadius = killRadius;
