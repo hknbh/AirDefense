@@ -77,7 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missilePrefab: {fileID: 9024546690069765282, guid: 6db15ebf5b3e9428292e4d59de56adf9,
     type: 3}
-  missileSpeed: 50
+  missileSpeed: 150
   missileTurnAngle: 75
   missileKillRadius: 10
   fireRate: 5

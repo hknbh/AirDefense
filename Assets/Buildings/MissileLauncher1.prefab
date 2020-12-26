@@ -65,6 +65,7 @@ MonoBehaviour:
   missileSpeed: 50
   missileTurnAngle: 35
   missileKillRadius: 10
+  fireRate: 15
 --- !u!114 &6535482583581076293
 MonoBehaviour:
   m_ObjectHideFlags: 0

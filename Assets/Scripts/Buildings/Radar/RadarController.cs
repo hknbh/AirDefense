@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class RadarController : MonoBehaviour, ActionItemActionHandler
+public class RadarController : MonoBehaviour, ActionItemActionHandler, Destroyable
 {
 
     [SerializeField]
@@ -30,5 +30,10 @@ public class RadarController : MonoBehaviour, ActionItemActionHandler
     {
         Debug.Log("Mouse clicked on Me with Action: " + actionName);
         setOnOff();
+    }
+
+    public void destroyMe()
+    {
+        Destroy(gameObject);
     }
 }

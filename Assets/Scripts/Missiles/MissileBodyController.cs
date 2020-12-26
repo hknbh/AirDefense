@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileBodyController : MonoBehaviour
+public class MissileBodyController : MonoBehaviour, Destroyable
 {
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,12 @@ public class MissileBodyController : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("Terrain"))
         {
-            Destroy(transform.parent.gameObject);
+            destroyMe();
         }
+    }
+
+    public void destroyMe()
+    {
+        Destroy(transform.parent.gameObject);
     }
 }

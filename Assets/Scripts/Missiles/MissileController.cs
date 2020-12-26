@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileController : MonoBehaviour
+public class MissileController : MonoBehaviour, Destroyable
 {
     [SerializeField]
     private float turnAngle = 20;
@@ -43,7 +43,7 @@ public class MissileController : MonoBehaviour
         //if targetposition not initialized, destroy yourself
         if (targetObjectPosition == null)
         {
-            Destroy(this.gameObject);
+            destroyMe();
             return;
         }
 
@@ -51,9 +51,9 @@ public class MissileController : MonoBehaviour
         {
             if (targetObject != null)
             {
-                Destroy(targetObject);
+                targetObject.GetComponent<Destroyable>().destroyMe();
             }
-            Destroy(this.gameObject);
+            destroyMe();
         }
         else
         {
@@ -78,5 +78,10 @@ public class MissileController : MonoBehaviour
         this.speed = speed;
         this.turnAngle = turnAngle;
         this.killRadius = killRadius;
+    }
+
+    public void destroyMe()
+    {
+        Destroy(gameObject);
     }
 }

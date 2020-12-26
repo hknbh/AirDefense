@@ -19,19 +19,37 @@ public class CommandCenterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        clearNulls();
         checkMissilesOnAir();
     }
 
+    private void clearNulls()
+    {
+        samSites.RemoveAll(item => item == null);
+        missilesOnAir.RemoveAll(item => item == null);
+        trackingRadars.RemoveAll(item => item == null);
+        missileLaunchers.RemoveAll(item => item == null);
+
+    }
 
     private void checkMissilesOnAir()
     {
+ 
         foreach (GameObject missile in missilesOnAir)
         {
             if (missile != null)
             {
                 foreach (GameObject samSite in samSites)
                 {
-                    samSite.GetComponent<SAMSiteController>().fireMissile(missile);
+                    if (samSite != null)
+                    {
+                        SAMSiteController sAMSiteController = samSite.GetComponent<SAMSiteController>();
+                        if (sAMSiteController != null)
+                        {
+                            sAMSiteController.fireMissile(missile);
+                        }
+                    }
+                   
                 }
             }
         }
