@@ -42,7 +42,6 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
     {
         if (fireRate >= 5)
         {
-            Debug.Log("Fire Missile");
             GameObject missile = Instantiate(missilePrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity);
             missile.GetComponent<MissileController>().setParams(targetObject, missileType, missileSpeed, missileTurnAngle, missileKillRadius);
             GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(missile);

@@ -38,7 +38,6 @@ public class MouseController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Interaction Type: " + interactionType);
             switch (interactionType)
             {
                 case InteractionType.SELECTION: selectItem(); break;
@@ -91,7 +90,6 @@ public class MouseController : MonoBehaviour
 
     private void addItem()
     {
-        Debug.Log("Add Item");
         GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(itemToAdd);
         itemToAdd = null;
         interactionType = InteractionType.SELECTION;

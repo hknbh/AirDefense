@@ -53,7 +53,6 @@ public class ControlPanelController : MonoBehaviour
         for (int index = 0; index < transform.childCount; ++index)
         {
             Transform child = transform.GetChild(index);
-            Debug.Log("Child name to hide: " + child.gameObject.name);
             child.gameObject.SetActive(false);
         }
     }

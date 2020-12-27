@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,7 +57,15 @@ public class MissileController : MonoBehaviour, Destroyable
         {
             if (targetObject != null)
             {
-                targetObject.GetComponent<Destroyable>().destroyMe();
+                Destroyable destroyable = targetObject.GetComponent<Destroyable>();
+                if (destroyable != null)
+                {
+                    destroyable.destroyMe();
+                }
+                else
+                {
+                    Debug.LogError("TargetObject doesn't have destroyable: " + targetObject.name);
+                }
             }
             destroyMe();
         }
@@ -71,9 +80,10 @@ public class MissileController : MonoBehaviour, Destroyable
 
     public void setParams(GameObject targetObject, EMissileType missileType, float speed, float turnAngle, float killRadius)
     {
-        if (targetObject.GetComponent<MissileController>() != null)
+        MissileController missileController = targetObject.GetComponent<MissileController>();
+        if (missileController != null)
         {
-            this.targetObject = targetObject.transform.GetChild(0).gameObject;
+            this.targetObject = missileController.getMissileBody();
         }
         else
         {
@@ -86,6 +96,10 @@ public class MissileController : MonoBehaviour, Destroyable
         this.killRadius = killRadius;
     }
 
+    internal GameObject getMissileBody()
+    {
+        return missileBody;
+    }
     public void destroyMe()
     {
         Destroy(gameObject);

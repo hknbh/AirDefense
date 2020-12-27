@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 8873398352296926198}
   - component: {fileID: 4629009992133347770}
   - component: {fileID: 3209793050224683465}
-  - component: {fileID: 5609616064771888719}
   m_Layer: 8
   m_Name: RadarIcon
   m_TagString: Untagged
@@ -165,19 +164,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5609616064771888719
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7659840522054757863}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7251979325098576581
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -47,13 +47,15 @@ public class CommandCenterController : MonoBehaviour
                     if (radar != null)
                     {
                         RadarController radarController = radar.GetComponent<RadarController>();
-                        if (Vector2.Distance(radarController.transform.position, missile.transform.position) < radarController.Coverage)
+                        MissileController missileController = missile.GetComponent<MissileController>();
+                        float distance = VectorUtils.Vector2Distance(radarController.transform.position, missileController.getMissileBody().transform.position);
+                        if (distance < radarController.Coverage)
                         {
                             foreach (SAMSiteController sAMSiteController in radarController.ConnectedSAMSites)
                             {
                                 if (sAMSiteController != null && !samTargets.ContainsKey(sAMSiteController))
                                 {
-                                    Debug.DrawLine(sAMSiteController.transform.position, missile.transform.position, Color.red, 500);
+                                    Debug.DrawLine(sAMSiteController.transform.position, missileController.getMissileBody().transform.position, Color.red);
                                     samTargets.Add(sAMSiteController, missile);
                                 }
                             }
