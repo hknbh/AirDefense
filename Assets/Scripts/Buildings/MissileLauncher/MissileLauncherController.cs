@@ -18,6 +18,9 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
     private int missileKillRadius;
 
     [SerializeField]
+    private EMissileType missileType;
+
+    [SerializeField]
     private float fireRate = 5;
 
     // Start is called before the first frame update
@@ -41,7 +44,7 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
         {
             Debug.Log("Fire Missile");
             GameObject missile = Instantiate(missilePrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity);
-            missile.GetComponent<MissileController>().setParams(targetObject, missileSpeed, missileTurnAngle, missileKillRadius);
+            missile.GetComponent<MissileController>().setParams(targetObject, missileType, missileSpeed, missileTurnAngle, missileKillRadius);
             GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(missile);
             fireRate = 0;
         }

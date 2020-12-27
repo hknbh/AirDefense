@@ -5,6 +5,9 @@ using UnityEngine;
 public class MissileController : MonoBehaviour, Destroyable
 {
     [SerializeField]
+    private EMissileType missileType;
+
+    [SerializeField]
     private float turnAngle = 20;
 
     [SerializeField]
@@ -24,6 +27,8 @@ public class MissileController : MonoBehaviour, Destroyable
 
     [SerializeField]
     private GameObject radarIcon;
+
+    public EMissileType MissileType { get => missileType; set => missileType = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -64,7 +69,7 @@ public class MissileController : MonoBehaviour, Destroyable
         }
     }
 
-    public void setParams(GameObject targetObject, float speed, float turnAngle, float killRadius)
+    public void setParams(GameObject targetObject, EMissileType missileType, float speed, float turnAngle, float killRadius)
     {
         if (targetObject.GetComponent<MissileController>() != null)
         {
@@ -74,6 +79,7 @@ public class MissileController : MonoBehaviour, Destroyable
         {
             this.targetObject = targetObject;
         }
+        this.missileType = missileType;
         this.targetObjectPosition = this.targetObject.transform.position;
         this.speed = speed;
         this.turnAngle = turnAngle;

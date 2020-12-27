@@ -10,6 +10,9 @@ public class CommandCenterController : MonoBehaviour
     private List<GameObject> missileLaunchers = new List<GameObject>();
     private List<GameObject> missilesOnAir = new List<GameObject>();
 
+    private Dictionary<SAMSiteController, GameObject> samTargets = new Dictionary<SAMSiteController, GameObject>();
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,33 +37,48 @@ public class CommandCenterController : MonoBehaviour
 
     private void checkMissilesOnAir()
     {
- 
+        samTargets.Clear();
         foreach (GameObject missile in missilesOnAir)
         {
-            if (missile != null)
+            if (missile != null && missile.GetComponent<MissileController>().MissileType == EMissileType.STS)
             {
-                foreach (GameObject samSite in samSites)
+                foreach (GameObject radar in trackingRadars)
                 {
-                    if (samSite != null)
+                    if (radar != null)
                     {
-                        SAMSiteController sAMSiteController = samSite.GetComponent<SAMSiteController>();
-                        if (sAMSiteController != null)
+                        RadarController radarController = radar.GetComponent<RadarController>();
+                        if (Vector2.Distance(radarController.transform.position, missile.transform.position) < radarController.Coverage)
                         {
-                            sAMSiteController.fireMissile(missile);
+                            foreach (SAMSiteController sAMSiteController in radarController.ConnectedSAMSites)
+                            {
+                                if (sAMSiteController != null && !samTargets.ContainsKey(sAMSiteController))
+                                {
+                                    Debug.DrawLine(sAMSiteController.transform.position, missile.transform.position, Color.red, 500);
+                                    samTargets.Add(sAMSiteController, missile);
+                                }
+                            }
                         }
                     }
-                   
                 }
             }
+        }
+
+        foreach (KeyValuePair<SAMSiteController, GameObject> samTarget in samTargets)
+        {
+            samTarget.Key.fireMissile(samTarget.Value);
         }
     }
 
     internal void addItem(GameObject itemToAdd)
     {
-        Debug.Log("Add item: " + itemToAdd.name);
+
         if (itemToAdd.GetComponent<SAMSiteController>() != null)
         {
             samSites.Add(itemToAdd);
+            foreach (GameObject radar in trackingRadars)
+            {
+                radar.GetComponent<RadarController>().connectSamSite(itemToAdd.GetComponent<SAMSiteController>());
+            }
         }
         else if (itemToAdd.GetComponent<MissileLauncherController>() != null)
         {
@@ -76,7 +94,10 @@ public class CommandCenterController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Couldn't add the item into any list");
+            Debug.LogError("Couldn't add the item into any list: " + itemToAdd.name);
         }
     }
+
+
+
 }
