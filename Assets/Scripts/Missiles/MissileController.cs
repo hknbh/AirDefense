@@ -9,13 +9,18 @@ public class MissileController : MonoBehaviour, Destroyable
     private EMissileType missileType;
 
     [SerializeField]
-    private float turnAngle = 20;
+    private float turnAngle;
 
     [SerializeField]
-    private float speed = 10.0f;
+    private float speed;
 
     [SerializeField]
-    private float killRadius = 10.0f;
+    private float killRadius;
+
+    [SerializeField]
+    private int timeToLive;
+
+    private float lifeTimeCounter; 
 
     [SerializeField]
     private GameObject targetObject;
@@ -34,12 +39,18 @@ public class MissileController : MonoBehaviour, Destroyable
     // Start is called before the first frame update
     void Start()
     {
-
+        lifeTimeCounter = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        lifeTimeCounter += Time.deltaTime;
+        if (lifeTimeCounter >= timeToLive)
+        {
+            destroyMe();
+        }
+
         //if targetObject is destroyed, use the latest transform
         if (targetObject != null)
         {
@@ -78,7 +89,7 @@ public class MissileController : MonoBehaviour, Destroyable
         }
     }
 
-    public void setParams(GameObject targetObject, EMissileType missileType, float speed, float turnAngle, float killRadius)
+    public void setParams(GameObject targetObject, EMissileType missileType, float speed, float turnAngle, float killRadius, int timeToLive)
     {
         MissileController missileController = targetObject.GetComponent<MissileController>();
         if (missileController != null)
@@ -94,6 +105,7 @@ public class MissileController : MonoBehaviour, Destroyable
         this.speed = speed;
         this.turnAngle = turnAngle;
         this.killRadius = killRadius;
+        this.timeToLive = timeToLive;
     }
 
     internal GameObject getMissileBody()

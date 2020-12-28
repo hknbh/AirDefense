@@ -147,6 +147,7 @@ MonoBehaviour:
   missileTurnAngle: 35
   missileKillRadius: 10
   missileType: 0
+  missileTimeToLive: 30
   fireRate: 15
 --- !u!114 &6535482583581076293
 MonoBehaviour:
