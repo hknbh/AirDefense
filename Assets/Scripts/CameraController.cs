@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
@@ -14,10 +15,20 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float zoomSpeed = 500.0f;
 
+
+    [SerializeField]
+    private Camera radarCamera;
+
+    [SerializeField]
+    private GameObject radarImage;
+
+    private RectTransform radarImageRectTransform;
+
+
     // Start is called before the first frame update
     void Start()
     {
-
+        radarImageRectTransform = radarImage.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -67,5 +78,32 @@ public class CameraController : MonoBehaviour
             directionVector += Vector3.forward * -1;
         }
         return directionVector;
+    }
+
+    public void minimapClicked(BaseEventData data)
+    {
+        PointerEventData eventData = (PointerEventData)data;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(radarImageRectTransform, eventData.position, null, out Vector2 localClick);
+        //local x&y has minus values therefore move them to positive values
+        localClick.x += radarImageRectTransform.rect.width / 2;
+        localClick.y += radarImageRectTransform.rect.height / 2;
+        Vector2 viewportClick = new Vector2(localClick.x / radarImageRectTransform.rect.width, localClick.y / radarImageRectTransform.rect.height);
+        Ray ray = radarCamera.ViewportPointToRay(new Vector3(viewportClick.x, viewportClick.y, 0));
+        //if there is a hit in minimap
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            //find the center point of main camera to calculate z diff
+            bool cameraHit = Physics.Raycast(transform.position, transform.forward, out RaycastHit raycastHit);
+            if (cameraHit)
+            {
+                float zDiff = raycastHit.point.z - transform.position.z;
+                transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z - zDiff);
+            }
+        }
+        else
+        {
+            Debug.LogError("Minimap click miss");
+        }
+
     }
 }
