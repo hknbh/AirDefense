@@ -78,6 +78,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 300
+  missileCount: 10
+  RELOAD_TIME: 5
   missilePrefab: {fileID: 9024546690069765282, guid: 6db15ebf5b3e9428292e4d59de56adf9,
     type: 3}
   missileSpeed: 150

@@ -142,7 +142,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 127132dde53d15c4ba2495dc2c42fd3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetObject: {fileID: 0}
   range: 300
+  missileCount: 3
+  RELOAD_TIME: 5
   missilePrefab: {fileID: 9024546690069765282, guid: 6db15ebf5b3e9428292e4d59de56adf9,
     type: 3}
   missileSpeed: 50

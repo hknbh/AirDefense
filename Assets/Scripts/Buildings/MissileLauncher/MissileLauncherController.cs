@@ -6,8 +6,19 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
 {
 
     [SerializeField]
+    private GameObject targetObject;
+
+    [SerializeField]
     private float range;
-    
+
+    [SerializeField]
+    private int missileCount;
+
+    private int missileCountCounter;
+
+    [SerializeField]
+    private float RELOAD_TIME;
+
     [SerializeField]
     private GameObject missilePrefab;
 
@@ -37,6 +48,7 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
     protected void Start()
     {
         fireRateCounter = FIRE_RATE;
+        missileCountCounter = missileCount;
     }
 
     // Update is called once per frame
@@ -46,6 +58,22 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
         {
             fireRateCounter += Time.deltaTime;
         }
+        updateAttack();
+    }
+
+
+    protected virtual void updateAttack()
+    {
+        if (targetObject != null)
+        {
+            fireMissile(targetObject);
+        }
+    }
+
+    public virtual bool lockTarget(GameObject aTargetObject)
+    {
+        targetObject = aTargetObject;
+        return true;
     }
 
     public virtual bool fireMissile(GameObject targetObject)
@@ -56,6 +84,11 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
             missile.GetComponent<MissileController>().setParams(targetObject, missileType, missileSpeed, missileTurnAngle, missileKillRadius, missileTimeToLive);
             GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(missile);
             fireRateCounter = 0;
+            missileCountCounter--;
+            if (missileCountCounter == 0)
+            {
+                StartCoroutine("reload");
+            }
             return true;
         }
         return false;
@@ -63,12 +96,18 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
 
     public bool canFire()
     {
-        return fireRateCounter >= FIRE_RATE;
+        return fireRateCounter >= FIRE_RATE && missileCountCounter > 0;
     }
 
     public void onMouseClick(string actionName)
     {
         Debug.Log("Missile launcher clicked");
+    }
+
+    private IEnumerator reload()
+    {
+        yield return new WaitForSeconds(RELOAD_TIME);
+        missileCountCounter = missileCount;
     }
 
     public void destroyMe()

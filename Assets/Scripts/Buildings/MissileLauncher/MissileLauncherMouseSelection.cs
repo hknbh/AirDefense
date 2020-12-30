@@ -9,11 +9,11 @@ public class MissileLauncherMouseSelection : MouseSelectionScript
     public void Start()
     {
         base.Start();
-        TargetAction = shootMissile;
+        TargetAction = lockTarget;
     }
 
 
-    private void shootMissile(GameObject target)
+    private void lockTarget(GameObject target)
     {
         if (target.tag.Equals("Terrain"))
         {
@@ -21,8 +21,7 @@ public class MissileLauncherMouseSelection : MouseSelectionScript
         }
         else
         {
-            Debug.Log("Shoot missile to:" + target.transform.position);
-            GetComponent<MissileLauncherController>().fireMissile(target);
+            GetComponent<MissileLauncherController>().lockTarget(target);
         }
         
     }

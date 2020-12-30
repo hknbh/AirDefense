@@ -15,12 +15,6 @@ public class SAMSiteController : MissileLauncherController
 
     public bool Locked { get => locked; }
 
-    protected void Update()
-    {
-        base.Update();
-        updateAttack();
-    }
-
     protected void Start()
     {
         base.Start();
@@ -28,7 +22,7 @@ public class SAMSiteController : MissileLauncherController
         lineRenderer.positionCount = 2;
     }
 
-    private void updateAttack()
+    protected override void updateAttack()
     {
         if (Locked && targetMissile != null)
         {
@@ -43,7 +37,7 @@ public class SAMSiteController : MissileLauncherController
         }
     }
 
-    public bool lockTarget(GameObject missile)
+    public override bool lockTarget(GameObject missile)
     {
         if (!Locked)
         {
