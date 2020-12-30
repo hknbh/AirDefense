@@ -15,14 +15,26 @@ public class AddItemController : ControlItemController
 
     public void addItem()
     {
-        MouseController mouseController = inputController.GetComponent<MouseController>();
-        RaycastHit raycastHit = mouseController.getRayCastHit(out bool isHit);
-        GameObject itemToAdd = Instantiate(objectPrefab, raycastHit.point, Quaternion.identity);
-        if (actionPanel != null)
+        CostOwner costOwner = objectPrefab.GetComponent<CostOwner>();
+        if(costOwner == null)
         {
-            itemToAdd.GetComponent<ActionPanelHolder>().setActionPanel(actionPanel);
+            Debug.LogError("No cost owner found");
         }
-        mouseController.addItemMode(itemToAdd);
+
+        if (resourceManager.getResources() >= costOwner.getCost())
+        {
+            MouseController mouseController = inputController.GetComponent<MouseController>();
+            RaycastHit raycastHit = mouseController.getRayCastHit(out bool isHit);
+            GameObject itemToAdd = Instantiate(objectPrefab, raycastHit.point, Quaternion.identity);
+            if (actionPanel != null)
+            {
+                itemToAdd.GetComponent<ActionPanelHolder>().setActionPanel(actionPanel);
+            }
+            mouseController.addItemMode(itemToAdd);
+
+            resourceManager.spendResource(costOwner.getCost());
+        }
+       
     }
 
     public void openSubControlPanel()

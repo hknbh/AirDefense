@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8706234575197887963}
   - component: {fileID: 4322332068479804863}
   - component: {fileID: 8730524826041847529}
-  - component: {fileID: 8449630037553477514}
   m_Layer: 8
   m_Name: RadarIcon
   m_TagString: Untagged
@@ -49,8 +48,8 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327033694691896505}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8449630037553477514
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327033694691896505}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3554598794806338046
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -168,9 +154,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5e914fe72154035ac4330ff3e627d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  missileType: 0
   turnAngle: 20
   speed: 10
   killRadius: 10
+  timeToLive: 0
   targetObject: {fileID: 0}
   targetObjectPosition: {x: 0, y: 0, z: 0}
   missileBody: {fileID: 3529790684237712166}

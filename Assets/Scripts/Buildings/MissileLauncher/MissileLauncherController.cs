@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler, Destroyable
+public class MissileLauncherController : BuildingController, ActionItemActionHandler
 {
 
     [SerializeField]
@@ -45,15 +45,17 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
     public float Range { get => range; set => range = value; }
 
     // Start is called before the first frame update
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         fireRateCounter = FIRE_RATE;
         missileCountCounter = missileCount;
     }
 
     // Update is called once per frame
-    protected void Update()
+    protected override void Update()
     {
+        base.Update();
         if (fireRateCounter < FIRE_RATE)
         {
             fireRateCounter += Time.deltaTime;
@@ -110,8 +112,6 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
         missileCountCounter = missileCount;
     }
 
-    public void destroyMe()
-    {
-        Destroy(gameObject);
-    }
+   
+
 }

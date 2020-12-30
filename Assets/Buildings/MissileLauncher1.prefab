@@ -143,9 +143,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObject: {fileID: 0}
+  cost: 700
   range: 300
   missileCount: 3
-  RELOAD_TIME: 5
+  RELOAD_TIME: 15
   missilePrefab: {fileID: 9024546690069765282, guid: 6db15ebf5b3e9428292e4d59de56adf9,
     type: 3}
   missileSpeed: 50

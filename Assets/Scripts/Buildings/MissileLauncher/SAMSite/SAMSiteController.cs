@@ -15,7 +15,7 @@ public class SAMSiteController : MissileLauncherController
 
     public bool Locked { get => locked; }
 
-    protected void Start()
+    protected override void Start()
     {
         base.Start();
         lineRenderer = GetComponent<LineRenderer>();

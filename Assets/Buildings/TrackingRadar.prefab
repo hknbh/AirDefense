@@ -242,9 +242,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab61f2c8dcf07ac4693aa23d80818a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cost: 500
+  isGainResource: 1
+  resourceGainPer10Sec: 20
+  commandCenter: {fileID: 0}
   coverageAreaCircle: {fileID: 4639984098703917951}
   coverage: 400
-  radarOn: 0
+  connectedSAMSites: []
+  missileTargets: []
 --- !u!114 &-6318687659405311178
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -53,7 +53,6 @@ public class MouseSelectionScript : MonoBehaviour, ActionPanelHolder
 
     public void deSelect()
     {
-        Debug.Log("MainControlPanel: " + mainControlPanel.GetComponent<ControlPanelController>());
         mainControlPanel.GetComponent<ControlPanelController>().showOnlyComponents();
     }
 
