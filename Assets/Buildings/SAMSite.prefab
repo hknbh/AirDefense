@@ -77,15 +77,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdc33635c77cbc4da9fd6d9902d4723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 200
+  range: 300
   missilePrefab: {fileID: 9024546690069765282, guid: 6db15ebf5b3e9428292e4d59de56adf9,
     type: 3}
   missileSpeed: 150
-  missileTurnAngle: 75
+  missileTurnAngle: 90
   missileKillRadius: 10
   missileType: 1
   missileTimeToLive: 10
-  FIRE_RATE: 10
+  FIRE_RATE: 5
   locked: 0
   targetMissile: {fileID: 0}
 --- !u!120 &7544646290649428235
@@ -96,8 +96,8 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471069263470581287}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 0
   m_LightProbeUsage: 0
@@ -107,7 +107,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 8eccf4917c6a94644bfa3535ff607bec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

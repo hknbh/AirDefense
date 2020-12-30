@@ -35,8 +35,6 @@ public class CameraController : MonoBehaviour
         radarImageRectTransform = radarImage.GetComponent<RectTransform>();
         lineRenderer = radarLineRenderer.GetComponent<LineRenderer>();
         lineRenderer.sortingOrder = 1;
-        lineRenderer.startColor = Color.green;
-        lineRenderer.endColor = Color.green;
         lineRenderer.startWidth = 20;
         lineRenderer.endWidth = 20;
         lineRenderer.positionCount = 5;

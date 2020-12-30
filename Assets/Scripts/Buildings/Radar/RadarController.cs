@@ -82,7 +82,7 @@ public class RadarController : MonoBehaviour, ActionItemActionHandler, Destroyab
         //clone the connected samsites
         Queue<SAMSiteController> samSites = new Queue<SAMSiteController>(connectedSAMSites);
         bool hasNext = missileTargetEnum.MoveNext();
-        while (hasNext)
+        while (hasNext && samSites.Count > 0)
         {
             GameObject missile = missileTargetEnum.Current;
             SAMSiteController samSite = samSites.Dequeue();

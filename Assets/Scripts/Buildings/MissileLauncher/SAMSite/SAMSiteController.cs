@@ -25,11 +25,6 @@ public class SAMSiteController : MissileLauncherController
     {
         base.Start();
         lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.sortingOrder = 1;
-        lineRenderer.startColor = Color.red;
-        lineRenderer.endColor = Color.red;
-        lineRenderer.startWidth = 5;
-        lineRenderer.endWidth = 5;
         lineRenderer.positionCount = 2;
     }
 
