@@ -6,6 +6,9 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
 {
 
     [SerializeField]
+    private float range;
+    
+    [SerializeField]
     private GameObject missilePrefab;
 
     [SerializeField]
@@ -24,32 +27,43 @@ public class MissileLauncherController : MonoBehaviour, ActionItemActionHandler,
     private int missileTimeToLive;
 
     [SerializeField]
-    private float fireRate = 5;
+    private float FIRE_RATE = 5;
+
+    private float fireRateCounter = 5;
+
+    public float Range { get => range; set => range = value; }
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
-
+        fireRateCounter = FIRE_RATE;
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
-        if (fireRate < 5)
+        if (fireRateCounter < FIRE_RATE)
         {
-            fireRate += Time.deltaTime;
+            fireRateCounter += Time.deltaTime;
         }
     }
 
-    public void fireMissile(GameObject targetObject)
+    public virtual bool fireMissile(GameObject targetObject)
     {
-        if (fireRate >= 5)
+        if (canFire())
         {
             GameObject missile = Instantiate(missilePrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity);
             missile.GetComponent<MissileController>().setParams(targetObject, missileType, missileSpeed, missileTurnAngle, missileKillRadius, missileTimeToLive);
             GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(missile);
-            fireRate = 0;
+            fireRateCounter = 0;
+            return true;
         }
+        return false;
+    }
+
+    public bool canFire()
+    {
+        return fireRateCounter >= FIRE_RATE;
     }
 
     public void onMouseClick(string actionName)

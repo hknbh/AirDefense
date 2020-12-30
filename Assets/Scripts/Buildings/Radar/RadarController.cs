@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ public class RadarController : MonoBehaviour, ActionItemActionHandler, Destroyab
 
     [SerializeField]
     private List<SAMSiteController> connectedSAMSites = new List<SAMSiteController>();
+
+    [SerializeField]
+    private List<GameObject> missileTargets = new List<GameObject>();
 
     public float Coverage { get => coverage; set => coverage = value; }
     public List<SAMSiteController> ConnectedSAMSites { get => connectedSAMSites; }
@@ -65,5 +69,48 @@ public class RadarController : MonoBehaviour, ActionItemActionHandler, Destroyab
             return false;
         }
 
+    }
+
+    internal void addMissileTarget(GameObject missile)
+    {
+        missileTargets.Add(missile);
+    }
+
+    internal void lockTargets()
+    {
+        List<GameObject>.Enumerator missileTargetEnum = missileTargets.GetEnumerator();
+        //clone the connected samsites
+        Queue<SAMSiteController> samSites = new Queue<SAMSiteController>(connectedSAMSites);
+        bool hasNext = missileTargetEnum.MoveNext();
+        while (hasNext)
+        {
+            GameObject missile = missileTargetEnum.Current;
+            SAMSiteController samSite = samSites.Dequeue();
+            if (!samSite.Locked)
+            {
+                //if can't lock (mostly because the missile is not in SAM's range, enqueue for other missiles
+                if (!samSite.lockTarget(missile))
+                {
+                    samSites.Enqueue(samSite);
+                }
+            }
+            hasNext = missileTargetEnum.MoveNext();
+
+            //if there are no more missiles and idle samsites, lock them to the latest missile
+            //TODO this is not the smartest resource usage, let's improve it afterwards
+            if (!hasNext)
+            {
+                while (samSites.Count > 0)
+                {
+                    samSite = samSites.Dequeue();
+                    if (!samSite.Locked)
+                    {
+                        samSite.lockTarget(missile);
+                    }
+                }
+            }
+        }
+
+        missileTargets.Clear();
     }
 }

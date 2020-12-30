@@ -10,9 +10,6 @@ public class CommandCenterController : MonoBehaviour
     private List<GameObject> missileLaunchers = new List<GameObject>();
     private List<GameObject> missilesOnAir = new List<GameObject>();
 
-    private Dictionary<SAMSiteController, GameObject> samTargets = new Dictionary<SAMSiteController, GameObject>();
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +34,6 @@ public class CommandCenterController : MonoBehaviour
 
     private void checkMissilesOnAir()
     {
-        samTargets.Clear();
         foreach (GameObject missile in missilesOnAir)
         {
             if (missile != null && missile.GetComponent<MissileController>().MissileType == EMissileType.STS)
@@ -51,23 +47,17 @@ public class CommandCenterController : MonoBehaviour
                         float distance = VectorUtils.Vector2Distance(radarController.transform.position, missileController.getMissileBody().transform.position);
                         if (distance < radarController.Coverage)
                         {
-                            foreach (SAMSiteController sAMSiteController in radarController.ConnectedSAMSites)
-                            {
-                                if (sAMSiteController != null && !samTargets.ContainsKey(sAMSiteController))
-                                {
-                                    Debug.DrawLine(sAMSiteController.transform.position, missileController.getMissileBody().transform.position, Color.red);
-                                    samTargets.Add(sAMSiteController, missile);
-                                }
-                            }
+                            radarController.addMissileTarget(missile);
                         }
                     }
                 }
             }
         }
 
-        foreach (KeyValuePair<SAMSiteController, GameObject> samTarget in samTargets)
+        foreach (GameObject radar in trackingRadars)
         {
-            samTarget.Key.fireMissile(samTarget.Value);
+            RadarController radarController = radar.GetComponent<RadarController>();
+            radarController.lockTargets();
         }
     }
 
@@ -89,6 +79,11 @@ public class CommandCenterController : MonoBehaviour
         else if (itemToAdd.GetComponent<RadarController>() != null)
         {
             trackingRadars.Add(itemToAdd);
+            RadarController radarController = itemToAdd.GetComponent<RadarController>();
+            foreach (GameObject samSite in samSites)
+            {
+                radarController.connectSamSite(samSite.GetComponent<SAMSiteController>());
+            }
         }
         else if (itemToAdd.GetComponent<MissileController>() != null)
         {

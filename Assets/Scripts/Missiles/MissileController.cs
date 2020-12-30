@@ -20,7 +20,7 @@ public class MissileController : MonoBehaviour, Destroyable
     [SerializeField]
     private int timeToLive;
 
-    private float lifeTimeCounter; 
+    private float lifeTimeCounter;
 
     [SerializeField]
     private GameObject targetObject;
@@ -91,15 +91,7 @@ public class MissileController : MonoBehaviour, Destroyable
 
     public void setParams(GameObject targetObject, EMissileType missileType, float speed, float turnAngle, float killRadius, int timeToLive)
     {
-        MissileController missileController = targetObject.GetComponent<MissileController>();
-        if (missileController != null)
-        {
-            this.targetObject = missileController.getMissileBody();
-        }
-        else
-        {
-            this.targetObject = targetObject;
-        }
+        this.targetObject = targetObject;
         this.missileType = missileType;
         this.targetObjectPosition = this.targetObject.transform.position;
         this.speed = speed;

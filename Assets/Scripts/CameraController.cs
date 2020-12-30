@@ -22,17 +22,9 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private GameObject radarImage;
 
-
-    [SerializeField]
-    private GameObject cube;
-
-    private GameObject cube1;
-    private GameObject cube2;
-    private GameObject cube3;
-    private GameObject cube4;
-
     [SerializeField]
     private GameObject radarLineRenderer;
+    private LineRenderer lineRenderer;
 
     private RectTransform radarImageRectTransform;
 
@@ -41,10 +33,13 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         radarImageRectTransform = radarImage.GetComponent<RectTransform>();
-        cube1 = Instantiate(cube);
-        cube2 = Instantiate(cube);
-        cube3 = Instantiate(cube);
-        cube4 = Instantiate(cube);
+        lineRenderer = radarLineRenderer.GetComponent<LineRenderer>();
+        lineRenderer.sortingOrder = 1;
+        lineRenderer.startColor = Color.green;
+        lineRenderer.endColor = Color.green;
+        lineRenderer.startWidth = 20;
+        lineRenderer.endWidth = 20;
+        lineRenderer.positionCount = 5;
     }
 
     // Update is called once per frame
@@ -131,34 +126,22 @@ public class CameraController : MonoBehaviour
 
         Vector3 p = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.farClipPlane));
         Physics.Raycast(transform.position, p - transform.position, out RaycastHit myHit);
-        //cube1.transform.position = myHit.point;
         positions[0] = myHit.point;
-        //last point to close the loop
         positions[4] = myHit.point;
 
 
         p = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, Camera.main.farClipPlane));
         Physics.Raycast(transform.position, p - transform.position, out myHit);
-        //cube2.transform.position = myHit.point;
         positions[1] = myHit.point;
 
         p = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.farClipPlane));
         Physics.Raycast(transform.position, p - transform.position, out myHit);
-        //cube3.transform.position = myHit.point;
         positions[2] = myHit.point;
 
         p = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.farClipPlane));
         Physics.Raycast(transform.position, p - transform.position, out myHit);
-        //cube4.transform.position = myHit.point;
         positions[3] = myHit.point;
 
-        LineRenderer lineRenderer = radarLineRenderer.GetComponent<LineRenderer>();
-        lineRenderer.sortingOrder = 1;
-        lineRenderer.startColor = Color.green;
-        lineRenderer.endColor = Color.green;
-        lineRenderer.startWidth= 20;
-        lineRenderer.endWidth = 20;
-        lineRenderer.positionCount = 5;
         lineRenderer.SetPositions(positions);
     }
 
