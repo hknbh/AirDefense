@@ -2,8 +2,11 @@
 using UnityEditor;
 using UnityEngine;
 
-public class BuildingController : MonoBehaviour, CostOwner, Destroyable, AddableFromControlPanel
+public class BuildingController : MonoBehaviour, CostOwner, Damagable, AddableFromControlPanel
 {
+    [SerializeField]
+    private int life;
+
     [SerializeField]
     private int cost;
 
@@ -40,10 +43,14 @@ public class BuildingController : MonoBehaviour, CostOwner, Destroyable, Addable
         return cost;
     }
 
-    public void destroyMe()
+    public void damage(int damageLevel)
     {
-        commandCenter.GetComponent<CommandCenterController>().removeItem(gameObject);
-        Destroy(gameObject);
+        life -= damageLevel;
+        if (life <= 0)
+        {
+            commandCenter.GetComponent<CommandCenterController>().removeItem(gameObject);
+            Destroy(gameObject);
+        }
     }
 
     public void initItem()

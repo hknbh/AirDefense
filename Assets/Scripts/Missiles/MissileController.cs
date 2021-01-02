@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileController : MonoBehaviour, Destroyable
+public class MissileController : MonoBehaviour, Damagable
 {
     [SerializeField]
     private EMissileType missileType;
@@ -48,7 +48,7 @@ public class MissileController : MonoBehaviour, Destroyable
         lifeTimeCounter += Time.deltaTime;
         if (lifeTimeCounter >= timeToLive)
         {
-            destroyMe();
+            damage(1);
         }
 
         //if targetObject is destroyed, use the latest transform
@@ -60,7 +60,7 @@ public class MissileController : MonoBehaviour, Destroyable
         //if targetposition not initialized, destroy yourself
         if (targetObjectPosition == null)
         {
-            destroyMe();
+            damage(1);
             return;
         }
 
@@ -68,17 +68,17 @@ public class MissileController : MonoBehaviour, Destroyable
         {
             if (targetObject != null)
             {
-                Destroyable destroyable = targetObject.GetComponent<Destroyable>();
-                if (destroyable != null)
+                Damagable damagable = targetObject.GetComponent<Damagable>();
+                if (damagable != null)
                 {
-                    destroyable.destroyMe();
+                    damagable.damage(1);
                 }
                 else
                 {
                     Debug.LogError("TargetObject doesn't have destroyable: " + targetObject.name);
                 }
             }
-            destroyMe();
+            damage(1);
         }
         else
         {
@@ -104,7 +104,7 @@ public class MissileController : MonoBehaviour, Destroyable
     {
         return missileBody;
     }
-    public void destroyMe()
+    public void damage(int damageLevel)
     {
         GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().removeItem(gameObject);
         Destroy(gameObject);

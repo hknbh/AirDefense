@@ -142,8 +142,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 127132dde53d15c4ba2495dc2c42fd3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 0}
+  life: 1
   cost: 700
+  isGainResource: 0
+  resourceGainPer10Sec: 0
+  commandCenter: {fileID: 0}
+  targetObject: {fileID: 0}
   range: 300
   missileCount: 3
   RELOAD_TIME: 15
