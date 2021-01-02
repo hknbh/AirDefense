@@ -18,14 +18,24 @@ public class RadarController : BuildingController, ActionItemActionHandler
     [SerializeField]
     private List<GameObject> missileTargets = new List<GameObject>();
 
+    [SerializeField]
+    private RadarLockStrategy radarLockStrategy;
+
     public float Coverage { get => coverage; set => coverage = value; }
     public List<SAMSiteController> ConnectedSAMSites { get => connectedSAMSites; }
+
+    protected override void Start()
+    {
+        base.Start();
+        radarLockStrategy = new FairLockStrategy();
+    }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
         coverageAreaCircle.transform.localScale = new Vector3(2 * Coverage, 0.01f, 2 * Coverage);
+
     }
 
     public void onMouseClick(string actionName)
@@ -37,59 +47,34 @@ public class RadarController : BuildingController, ActionItemActionHandler
     {
         if (!ConnectedSAMSites.Contains(aSAMSiteController) && Vector3.Distance(transform.position, aSAMSiteController.transform.position) < Coverage)
         {
-            Debug.Log("Connected SAMSite");
-            Debug.DrawLine(transform.position, aSAMSiteController.transform.position, Color.red);
             ConnectedSAMSites.Add(aSAMSiteController);
             return true;
         }
         else
         {
-            Debug.Log("Not Connected SAMSite");
             return false;
         }
 
     }
 
+    public void removeSamSite(SAMSiteController aSAMSiteController)
+    {
+        ConnectedSAMSites.Remove(aSAMSiteController);
+    }
+
     internal void addMissileTarget(GameObject missile)
     {
-        missileTargets.Add(missile);
+        if (!missileTargets.Contains(missile))
+        {
+            missileTargets.Add(missile);
+        }
     }
 
     internal void lockTargets()
     {
-        List<GameObject>.Enumerator missileTargetEnum = missileTargets.GetEnumerator();
-        //clone the connected samsites
-        Queue<SAMSiteController> samSites = new Queue<SAMSiteController>(connectedSAMSites);
-        bool hasNext = missileTargetEnum.MoveNext();
-        while (hasNext && samSites.Count > 0)
-        {
-            GameObject missile = missileTargetEnum.Current;
-            SAMSiteController samSite = samSites.Dequeue();
-            if (!samSite.Locked)
-            {
-                //if can't lock (mostly because the missile is not in SAM's range, enqueue for other missiles
-                if (!samSite.lockTarget(missile))
-                {
-                    samSites.Enqueue(samSite);
-                }
-            }
-            hasNext = missileTargetEnum.MoveNext();
-
-            //if there are no more missiles and idle samsites, lock them to the latest missile
-            //TODO this is not the smartest resource usage, let's improve it afterwards
-            if (!hasNext)
-            {
-                while (samSites.Count > 0)
-                {
-                    samSite = samSites.Dequeue();
-                    if (!samSite.Locked)
-                    {
-                        samSite.lockTarget(missile);
-                    }
-                }
-            }
-        }
-
-        missileTargets.Clear();
+        List<GameObject>.Enumerator missileTargetEnum = new List<GameObject>(missileTargets.FindAll(e => e != null)).GetEnumerator();
+        Queue<SAMSiteController> samSites = new Queue<SAMSiteController>(connectedSAMSites.FindAll(e => e != null));
+        radarLockStrategy.lockTargets(missileTargetEnum, samSites);
     }
+
 }

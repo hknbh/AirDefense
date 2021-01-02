@@ -82,7 +82,7 @@ public class MissileLauncherController : BuildingController, ActionItemActionHan
     {
         if (canFire())
         {
-            GameObject missile = Instantiate(missilePrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity);
+            GameObject missile = instantiateMissile(targetObject);
             missile.GetComponent<MissileController>().setParams(targetObject, missileType, missileSpeed, missileTurnAngle, missileKillRadius, missileTimeToLive);
             GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(missile);
             fireRateCounter = 0;
@@ -94,6 +94,11 @@ public class MissileLauncherController : BuildingController, ActionItemActionHan
             return true;
         }
         return false;
+    }
+
+    protected virtual GameObject instantiateMissile(GameObject targetObject)
+    {
+        return Instantiate(missilePrefab, transform.position + new Vector3(0, 1.0f, 0), Quaternion.identity);
     }
 
     public bool canFire()

@@ -13,14 +13,18 @@ public class CommandCenterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        StartCoroutine("checkAll");
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private IEnumerator checkAll()
     {
-        clearNulls();
-        checkMissilesOnAir();
+        for (; ; )
+        {
+            yield return new WaitForSeconds(2);
+            clearNulls();
+            checkMissilesOnAir();
+        }
     }
 
     private void clearNulls()
@@ -29,7 +33,6 @@ public class CommandCenterController : MonoBehaviour
         missilesOnAir.RemoveAll(item => item == null);
         trackingRadars.RemoveAll(item => item == null);
         missileLaunchers.RemoveAll(item => item == null);
-
     }
 
     private void checkMissilesOnAir()
@@ -49,16 +52,12 @@ public class CommandCenterController : MonoBehaviour
                         {
                             radarController.addMissileTarget(missile);
                         }
+                        radarController.lockTargets();
                     }
                 }
             }
         }
 
-        foreach (GameObject radar in trackingRadars)
-        {
-            RadarController radarController = radar.GetComponent<RadarController>();
-            radarController.lockTargets();
-        }
     }
 
     internal void addItem(GameObject itemToAdd)
@@ -96,5 +95,32 @@ public class CommandCenterController : MonoBehaviour
     }
 
 
+    internal void removeItem(GameObject itemToRemove)
+    {
+        if (itemToRemove.GetComponent<SAMSiteController>() != null)
+        {
+            samSites.Remove(itemToRemove);
+            foreach (GameObject radar in trackingRadars)
+            {
+                radar.GetComponent<RadarController>().connectSamSite(itemToRemove.GetComponent<SAMSiteController>());
+            }
+        }
+        else if (itemToRemove.GetComponent<MissileLauncherController>() != null)
+        {
+            missileLaunchers.Remove(itemToRemove);
+        }
+        else if (itemToRemove.GetComponent<RadarController>() != null)
+        {
+            trackingRadars.Remove(itemToRemove);
+        }
+        else if (itemToRemove.GetComponent<MissileController>() != null)
+        {
+            missilesOnAir.Remove(itemToRemove);
+        }
+        else
+        {
+            Debug.LogError("Couldn't remove the item:" + itemToRemove.name);
+        }
+    }
 
 }

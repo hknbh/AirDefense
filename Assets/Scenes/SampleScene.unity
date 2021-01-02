@@ -2386,7 +2386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a091cbdfdca72047a0e6e268e17199f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resources: 800
+  resources: 8000
   resourceText: {fileID: 0}
 --- !u!1001 &1700451952
 PrefabInstance:

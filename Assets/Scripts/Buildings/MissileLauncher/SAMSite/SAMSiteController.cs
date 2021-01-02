@@ -39,30 +39,24 @@ public class SAMSiteController : MissileLauncherController
 
     public override bool lockTarget(GameObject missile)
     {
-        if (!Locked)
+        MissileController missileController = missile.GetComponent<MissileController>();
+        if (missileController != null)
         {
-            MissileController missileController = missile.GetComponent<MissileController>();
-            if (missileController != null)
+            if (VectorUtils.Vector2Distance(transform.position, missileController.getMissileBody().transform.position) <= Range)
             {
-                if (VectorUtils.Vector2Distance(transform.position, missileController.getMissileBody().transform.position) <= Range)
-                {
-                    targetMissile = missileController.getMissileBody();
-                    locked = true;
-                    return true;
-                }
-                return false;
+                targetMissile = missileController.getMissileBody();
+                locked = true;
+                return true;
             }
-            else
-            {
-                Debug.LogError("SAM Target is not a missile");
-                return false;
-            }
+            return false;
         }
         else
         {
+            Debug.LogError("SAM Target is not a missile");
             return false;
         }
     }
+
 
     private void drawLineToTarget(GameObject targetObject)
     {
@@ -78,4 +72,13 @@ public class SAMSiteController : MissileLauncherController
         lineRenderer.positionCount = 0;
     }
 
+    //SAM should look to the target on firing to have more accuracy 
+    //therefore I set the rotation to the target instead of air (as in base method)
+    protected override GameObject instantiateMissile(GameObject targetObject)
+    {
+        GameObject missile = base.instantiateMissile(targetObject);
+        Quaternion lookRotation = Quaternion.LookRotation(targetObject.transform.position - missile.transform.position);
+        missile.GetComponent<MissileController>().getMissileBody().transform.rotation = lookRotation;
+        return missile;
+    }
 }

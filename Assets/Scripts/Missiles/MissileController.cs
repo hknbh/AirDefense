@@ -106,6 +106,7 @@ public class MissileController : MonoBehaviour, Destroyable
     }
     public void destroyMe()
     {
+        GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().removeItem(gameObject);
         Destroy(gameObject);
     }
 }

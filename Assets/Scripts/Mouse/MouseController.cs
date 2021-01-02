@@ -67,11 +67,13 @@ public class MouseController : MonoBehaviour
     {
         if (itemToAdd != null)
         {
+            //hide item to prevent ray hit to have correct coord on the map
             itemToAdd.SetActive(false);
             RaycastHit rayCastHit = getRayCastHit(out bool isHit);
             if (isHit)
             {
                 itemToAdd.transform.position = rayCastHit.point;
+                //reactivate to show the item attached to the mouse
                 itemToAdd.SetActive(true);
             }
         }
@@ -91,6 +93,8 @@ public class MouseController : MonoBehaviour
     private void addItem()
     {
         GameObject.Find("CommandCenter").GetComponent<CommandCenterController>().addItem(itemToAdd);
+        //init item since it is now added to the map
+        itemToAdd.GetComponent<AddableFromControlPanel>().initItem();
         itemToAdd = null;
         interactionType = InteractionType.SELECTION;
     }

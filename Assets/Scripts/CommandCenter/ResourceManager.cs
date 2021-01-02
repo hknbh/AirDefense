@@ -23,7 +23,6 @@ public class ResourceManager : MonoBehaviour
 
     public void addResource(int resource)
     {
-        Debug.Log("Adding resource: " + resource);
         Interlocked.Add(ref resources, resource);
     }
 

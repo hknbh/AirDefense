@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public class BuildingController : MonoBehaviour, CostOwner, Destroyable
+public class BuildingController : MonoBehaviour, CostOwner, Destroyable, AddableFromControlPanel
 {
     [SerializeField]
     private int cost;
@@ -14,16 +14,11 @@ public class BuildingController : MonoBehaviour, CostOwner, Destroyable
     private int resourceGainPer10Sec;
 
     [SerializeField]
-    private GameObject commandCenter;
+    protected GameObject commandCenter;
 
     protected virtual void Start()
     {
         commandCenter = GameObject.Find("CommandCenter");
-
-        if (isGainResource)
-        {
-            StartCoroutine(resourceGain());
-        }
     }
 
     protected virtual void Update()
@@ -35,12 +30,10 @@ public class BuildingController : MonoBehaviour, CostOwner, Destroyable
     {
         while (true)
         {
-            Debug.Log("Add resource " + resourceGainPer10Sec);
-            commandCenter.GetComponent<ResourceManager>().addResource(resourceGainPer10Sec);
             yield return new WaitForSeconds(5);
+            commandCenter.GetComponent<ResourceManager>().addResource(resourceGainPer10Sec);
         }
     }
-
 
     public int getCost()
     {
@@ -49,6 +42,15 @@ public class BuildingController : MonoBehaviour, CostOwner, Destroyable
 
     public void destroyMe()
     {
+        commandCenter.GetComponent<CommandCenterController>().removeItem(gameObject);
         Destroy(gameObject);
+    }
+
+    public void initItem()
+    {
+        if (isGainResource)
+        {
+            StartCoroutine("resourceGain");
+        }
     }
 }
