@@ -10,10 +10,13 @@ public class CameraController : MonoBehaviour
     private float scrollSpeed = 400.0f;
 
     [SerializeField]
-    private float mouseScrollSpeed = 1000.0f;
+    private float mouseMoveSpeed = 1000.0f;
 
     [SerializeField]
     private float zoomSpeed = 500.0f;
+
+    [SerializeField]
+    private float rotationSpeed = 40.0f;
 
 
     [SerializeField]
@@ -43,21 +46,55 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateMiniMapFrame();
-
-        if (Input.anyKey)
+        if (Input.GetMouseButton(1))
         {
-            transform.position += getDirection() * scrollSpeed * Time.deltaTime;
+            Vector3 p = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, Camera.main.farClipPlane));
+            bool isHit = Physics.Raycast(transform.position, p - transform.position, out RaycastHit rayCastHit);
+            if (isHit)
+            {
+                float xChange = Input.GetAxis("Mouse X") * -1;
+                RaycastHit[] rayCastHits = new RaycastHit[4];
+                Quaternion oldRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+                transform.RotateAround(rayCastHit.point, Vector3.up, xChange * rotationSpeed * Time.deltaTime);
+                if (!testNewFrameWithPosition(transform.position, rayCastHits))
+                {
+                    transform.rotation = oldRotation;
+                }
+                else
+                {
+                    updateMiniMapFrame(rayCastHits);
+                }
+            }
+
         }
-
-        if (Input.GetMouseButton(2))
+        else if (Input.anyKey || Input.mouseScrollDelta.y != 0)
         {
-            transform.position += getMouseDirection() * mouseScrollSpeed * Time.deltaTime;
-        }
+            Vector3 positionChange = new Vector3();
+            if (Input.anyKey)
+            {
+                positionChange = getDirection() * scrollSpeed * Time.deltaTime;
+            }
 
-        if (Input.mouseScrollDelta.y != 0)
-        {
-            transform.Translate(Vector3.forward * Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime);
+            if (Input.GetMouseButton(2))
+            {
+                positionChange = getMouseDirection() * mouseMoveSpeed * Time.deltaTime;
+            }
+
+            if (Input.mouseScrollDelta.y != 0)
+            {
+                positionChange = Vector3.forward * Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
+            }
+            RaycastHit[] rayCastHits = new RaycastHit[4];
+            Vector3 oldPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            transform.Translate(positionChange);
+            if (!testNewFrameWithPosition(transform.position, rayCastHits))
+            {
+                transform.position = oldPosition;
+            }
+            else
+            {
+                updateMiniMapFrame(rayCastHits);
+            }
         }
     }
 
@@ -65,7 +102,7 @@ public class CameraController : MonoBehaviour
     {
         float translationX = Input.GetAxis("Mouse X") * -1;
         float translationY = Input.GetAxis("Mouse Y") * -1;
-        Vector3 vector3 = new Vector3(translationX, 0, translationY);
+        Vector3 vector3 = new Vector3(translationX, translationY, translationY);
         return vector3;
     }
 
@@ -82,11 +119,11 @@ public class CameraController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            directionVector += Vector3.forward;
+            directionVector += Vector3.up + Vector3.forward;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            directionVector += Vector3.forward * -1;
+            directionVector += (Vector3.up + Vector3.forward) * -1;
         }
         return directionVector;
     }
@@ -108,7 +145,13 @@ public class CameraController : MonoBehaviour
             if (cameraHit)
             {
                 float zDiff = raycastHit.point.z - transform.position.z;
-                transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z - zDiff);
+                Vector3 newPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z - zDiff);
+                RaycastHit[] rayCastHits = new RaycastHit[4];
+                if (testNewFrameWithPosition(newPosition, rayCastHits))
+                {
+                    transform.position = newPosition;
+                    updateMiniMapFrame(rayCastHits);
+                }
             }
         }
         else
@@ -118,30 +161,30 @@ public class CameraController : MonoBehaviour
     }
 
     //Updates the view frame in the minimap view
-    private void updateMiniMapFrame()
+    private void updateMiniMapFrame(RaycastHit[] rayCasts)
     {
         Vector3[] positions = new Vector3[5];
-
-        Vector3 p = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.farClipPlane));
-        Physics.Raycast(transform.position, p - transform.position, out RaycastHit myHit);
-        positions[0] = myHit.point;
-        positions[4] = myHit.point;
-
-
-        p = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, Camera.main.farClipPlane));
-        Physics.Raycast(transform.position, p - transform.position, out myHit);
-        positions[1] = myHit.point;
-
-        p = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.farClipPlane));
-        Physics.Raycast(transform.position, p - transform.position, out myHit);
-        positions[2] = myHit.point;
-
-        p = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.farClipPlane));
-        Physics.Raycast(transform.position, p - transform.position, out myHit);
-        positions[3] = myHit.point;
-
+        positions[0] = rayCasts[0].point;
+        positions[4] = rayCasts[0].point;
+        positions[1] = rayCasts[1].point;
+        positions[2] = rayCasts[2].point;
+        positions[3] = rayCasts[3].point;
         lineRenderer.SetPositions(positions);
     }
 
+    //returns false if the viewport is displaying out of the terrain
+    //by testing 4 corners of the viewport and if the rays are still colliding with the terrain
+    private bool testNewFrameWithPosition(Vector3 position, RaycastHit[] rayCasts)
+    {
+        Vector3 p = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.farClipPlane));
+        bool isHit = Physics.Raycast(position, p - position, out rayCasts[0]);
+        p = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, Camera.main.farClipPlane));
+        isHit &= Physics.Raycast(position, p - position, out rayCasts[1]);
+        p = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.farClipPlane));
+        isHit &= Physics.Raycast(position, p - position, out rayCasts[2]);
+        p = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.farClipPlane));
+        isHit &= Physics.Raycast(position, p - position, out rayCasts[3]);
+        return isHit;
+    }
 
 }
